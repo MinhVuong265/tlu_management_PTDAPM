@@ -19,7 +19,7 @@ class InternshipController extends Controller
             abort(403, 'Bạn không có quyền truy cập.');
         }
 
-        $internships = Internship::with(['student', 'company', 'instructor'])->paginate(10);
+        $internships = Internship::with(['student', 'company', 'lecturer'])->paginate(10);
         return view('internships.index', compact('internships'));
     }
 
@@ -33,12 +33,10 @@ class InternshipController extends Controller
         // Lấy thông tin sinh viên từ bảng students dựa trên account_id
         $student = Student::where('account_id', auth()->id())->first();
     
-        if (!$student) {
-            return abort(404, 'Không tìm thấy thông tin sinh viên.');
-        }
+        
     
         // Lấy danh sách thực tập của sinh viên hiện tại
-        $internships = Internship::with(['student', 'company', 'instructor'])
+        $internships = Internship::with(['student', 'company', 'lecturer'])
             ->where('student_id', $student->id)
             ->paginate(10);
     

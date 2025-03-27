@@ -18,7 +18,7 @@ class Internship extends Model
         'start_date',
         'end_date',
         'status',
-        'report_file',
+        'report_file'
     ];
     public function student()
     {
@@ -32,7 +32,7 @@ class Internship extends Model
     }
 
     // Quan hệ với Lecturer (giảng viên hướng dẫn)
-    public function instructor()
+    public function lecturer()
     {
         return $this->belongsTo(Lecturer::class, 'instructor_id');
     }

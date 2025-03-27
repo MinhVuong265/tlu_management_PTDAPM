@@ -38,8 +38,13 @@ class FileUploadController extends Controller
         }
 
         // Lấy danh sách dự án và báo cáo của sinh viên
-        $projects = Project::where('student_id', $student->id)->get();
-        $internships = Internship::where('student_id', $student->id)->get();
+        $projects = Project::where('student_id', $student->id)
+            ->orderBy('updated_at', 'desc')
+            ->first();
+        $internships = Internship::where('student_id', $student->id)
+            ->orderBy('updated_at', 'desc')
+            ->first();
+//        dd($projects, $internships);
 
         return view('file-upload.index', compact('projects', 'internships'));
     }
@@ -87,7 +92,10 @@ class FileUploadController extends Controller
 
         // Validate file upload: sử dụng input name 'project_file'
         $request->validate([
-            'project_file' => 'required|file|mimes:pdf,doc,docx,zip|max:5120',
+            'project_file' => 'required|file|mimes:pdf,doc,docx,zip|max:20480',
+        ], [
+            'file.mimes' => 'Tệp phải có định dạng: pdf, doc, docx hoặc zip.',
+            'file.max'   => 'Kích thước tệp không được vượt quá 20MB.',
         ]);
 
         // Lưu file vào thư mục 'projects' trên disk 'public'
@@ -144,7 +152,10 @@ class FileUploadController extends Controller
 
         // Validate file upload: sử dụng input name 'internship_file'
         $request->validate([
-            'internship_file' => 'required|file|mimes:pdf,doc,docx,zip|max:5120',
+            'internship_file' => 'required|file|mimes:pdf,doc,docx,zip|max:20480',
+        ], [
+            'file.mimes' => 'Tệp phải có định dạng: pdf, doc, docx hoặc zip.',
+            'file.max'   => 'Kích thước tệp không được vượt quá 20MB.',
         ]);
 
         // Lưu file vào thư mục 'internships' trên disk 'public'

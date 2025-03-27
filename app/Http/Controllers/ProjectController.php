@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Lecturer;
 use App\Models\Project;
 use App\Models\Student;
-use App\Models\Lecturer;
+use Illuminate\Http\Request;
 class ProjectController extends Controller
 {
     /**
@@ -13,7 +13,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Project::with(['student', 'instructor']);
+        $query = Project::with(['student', 'lecturer']);
 
         // Lọc theo tên hoặc trạng thái nếu có yêu cầu tìm kiếm
         if ($request->has('search')) {
@@ -35,8 +35,7 @@ class ProjectController extends Controller
     }
     public function student(Request $request)
     {
-        // Lấy thông tin sinh viên từ bảng student dựa trên account_id (user_id hiện tại)
-        $student = Student::where('account_id', auth()->id())->first();
+        $query = Project::with(['student', 'lecturer']);
 
         // Kiểm tra nếu không tìm thấy sinh viên
         if (!$student) {
@@ -77,7 +76,7 @@ class ProjectController extends Controller
     {
         $students = Student::all();
         $instructor = Lecturer::all();
-        return view('projects.create', compact('students', 'instructors'));
+        return view('projects.create', compact('students', 'lecturer'));
     }
 
     /**
@@ -101,9 +100,9 @@ class ProjectController extends Controller
     /**
      * Hiển thị chi tiết một đồ án
      */
-    public function show($id)
+    public function show(Student $student)
     {
-        $project = Project::with(['student', 'instructor'])->findOrFail($id);
+        $project = Project::with(['student', 'lecturer'])->findOrFail($id);
         return view('projects.show', compact('project'));
     }
 
@@ -115,7 +114,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $students = Student::all();
         $instructors = Lecturer::all();
-        return view('projects.edit', compact('project', 'students', 'instructors'));
+        return view('projects.edit', compact('project', 'students', 'lecturer'));
     }
 
     /**
