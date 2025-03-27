@@ -21,7 +21,7 @@ Route::get('/', fn() => redirect('home'));
 Route::get('/home', fn() => view('page.home'))->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware(['auth', 'can:sinhvien'])->group(function () {
-    // Profile
+    
 
     // Topics
     Route::get('/topics/register', [TopicController::class, 'register'])->name('topics.register');
