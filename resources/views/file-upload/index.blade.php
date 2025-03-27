@@ -73,7 +73,7 @@
                         @endif
 
                         <!-- Form upload file cho báo cáo thực tập sử dụng input name 'internship_file' -->
-                        <form action="{{ route('store.internship', $internship->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('internships.store', $internship->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @if($errors->has('internship_file'))
                                 <div class="alert alert-danger">
