@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('students.search') }}" class="btn btn-secondary">Quay lại</a>
+                    <a href="{{ route('students.index') }}" class="btn btn-secondary">Quay lại</a>
                     <button type="submit" class="btn btn-success">Cập nhật</button>
                 </div>
             </form>

@@ -71,7 +71,9 @@ Route::middleware(['auth', 'can:sinhvien'])->group(function () {
 
     // Students resource
     Route::resource('students', StudentController::class);
-    Route::get('/students/search', [StudentController::class, 'search'])->name('students.search');
+    Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+    Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
+    Route::post('/students', [StudentController::class, 'store'])->name('students.store');
 });
 
 
